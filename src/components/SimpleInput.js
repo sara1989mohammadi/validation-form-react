@@ -31,7 +31,9 @@ const SimpleInput = (props) => {
           onChange={nameInputChangeHandler}
           value={enterdName}
         />
-        {nameInputIsInValid && <p className="error-text">Test</p>}
+        {nameInputIsInValid && (
+          <p className="error-text">Name must not be empty.</p>
+        )}
       </div>
       <div className="form-actions">
         <button>Submit</button>
