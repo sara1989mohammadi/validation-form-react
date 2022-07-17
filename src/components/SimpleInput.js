@@ -1,34 +1,29 @@
 import React, { useState } from "react";
+import UseInput from "../hooks/use-input";
 const SimpleInput = (props) => {
-  const [enterdName, setEnterdName] = useState("");
-  //   const [enteredNameIsValid, setEnteredNameIsValid] = useState(false);
-  const [enteredNameIsTouched, setEnteredNameIsTouched] = useState(false);
-  const enteredNameIsValid = enterdName.trim() !== "";
-  const nameInputIsInValid = !enteredNameIsValid && enteredNameIsTouched;
+  const {
+    value: enterdName,
+    isValid: enteredNameIsValid,
+    hasError: nampeInputHasError,
+    valueInputChangeHandler: nameInputChangeHandler,
+    valueInputBluerHandler: nameInputBluerHandler,
+    reset: reset,
+  } = UseInput((value) => value.trim() !== "");
 
   let formIsValid = false;
   if (enteredNameIsValid) {
     formIsValid = true;
   }
-  const nameInputChangeHandler = (event) => {
-    setEnterdName(event.target.value);
-  };
-
-  const nameInputBluerHandler = (event) => {
-    setEnteredNameIsTouched(true);
-  };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    setEnteredNameIsTouched(true);
     if (!enteredNameIsValid) {
       return;
     }
-    setEnterdName("");
-    setEnteredNameIsTouched(false);
+    reset("");
   };
 
-  const nameInputClasses = nameInputIsInValid
+  const nameInputClasses = nampeInputHasError
     ? "form-control invalid"
     : "form-control";
   return (
@@ -42,7 +37,7 @@ const SimpleInput = (props) => {
           onBlur={nameInputBluerHandler}
           value={enterdName}
         />
-        {nameInputIsInValid && (
+        {nampeInputHasError && (
           <p className="error-text">Name must not be empty.</p>
         )}
       </div>
